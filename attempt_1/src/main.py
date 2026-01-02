@@ -14,7 +14,6 @@ from langchain_core.prompts import ChatPromptTemplate
 # Load environment variables from .env file
 load_dotenv()
 
-
 def _set_env(var: str):
     if not os.environ.get(var):
         os.environ[var] = getpass.getpass(f"{var}: ")
