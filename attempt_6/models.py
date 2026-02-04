@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import Field, BaseModel
 
 class CommonNameCandidate(BaseModel):
@@ -19,4 +20,8 @@ class DCA_Agent_State(BaseModel):
     common_name_candidates: list[CommonNameCandidate] = Field(
         default_factory=list,
         description="A list of potential common names for the coral species"
+    )
+    selected_species_id: Optional[str] = Field(
+        default=None,
+        description="The 7-character species identifier (Common Abbre) selected from the codebook"
     )
