@@ -11,6 +11,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from models import DCA_Agent_State, CommonNameCandidate
 from common_name_extractor import extract_common_name_candidates
 from db.species_codebook import SpeciesCodebook
+from date_extractor import extract_date
 
 # Load environment variables from .env file
 load_dotenv()
@@ -33,11 +34,13 @@ builder = StateGraph(DCA_Agent_State)
 # Add the extract_common_name_candidates node
 builder.add_node("extract_common_name_candidates", extract_common_name_candidates)
 builder.add_node("species_codebook_retrieval_agent", species_codebook_retrieval_agent)
+builder.add_node("date_extractor", extract_date)
 
 # Set up the workflow edges
 builder.add_edge(START, "extract_common_name_candidates")
 builder.add_edge("extract_common_name_candidates", "species_codebook_retrieval_agent")
-builder.add_edge("species_codebook_retrieval_agent", END)
+builder.add_edge("species_codebook_retrieval_agent", "date_extractor")
+builder.add_edge("date_extractor", END)
 
 # Compile the graph
 graph = builder.compile()

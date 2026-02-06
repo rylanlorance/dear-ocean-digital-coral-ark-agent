@@ -25,3 +25,7 @@ class DCA_Agent_State(BaseModel):
         default=None,
         description="The 7-character species identifier (Common Abbre) selected from the codebook"
     )
+    date: Optional[str] = Field(
+        default=None,
+        description="Datetime that corresponds to the record. "
+    )
