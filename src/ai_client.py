@@ -19,7 +19,6 @@ os.environ["LANGSMITH_PROJECT"] = "langchain-academy"
 # Initialize the LLM
 llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
-
 def call_ai(prompt: str, **kwargs) -> str:
     """
     Abstraction for all AI calls. Accepts a prompt parameter and returns the AI response.
