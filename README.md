@@ -24,37 +24,6 @@ flowchart LR
     D --> E["Standardized Output"]
 ```
 
-### Detailed Workflow
-
-```mermaid
-flowchart TD
-    START(["Start"]) --> CN["extract_common_name_candidates"]
-
-    subgraph CN_Detail["Step 1: Common Name Extraction"]
-        CN --> CN1["Send filename to GPT-4o"]
-        CN1 --> CN2["Extract 2-3 candidate\ncommon names with\nconfidence scores"]
-        CN2 --> CN3["Parse JSON response\n(regex fallback)"]
-    end
-
-    CN3 --> RAG["species_codebook_retrieval_agent"]
-
-    subgraph RAG_Detail["Step 2: Species Codebook Lookup (RAG)"]
-        RAG --> RAG1["Fuzzy match each candidate\nagainst codebook CSV\n(825 species)"]
-        RAG1 --> RAG2["Fallback to exact\nsubstring match"]
-        RAG2 --> RAG3["GPT-4o ranks matches\nand selects best\nspecies ID"]
-    end
-
-    RAG3 --> DATE["date_extractor"]
-
-    subgraph DATE_Detail["Step 3: Date Extraction"]
-        DATE --> DATE1["Try regex patterns:\nYYYYMMDD, YYYY-MM-DD,\nMM-DD-YYYY, etc."]
-        DATE1 --> DATE2["Validate date\n(must be 1990–2030)"]
-        DATE2 --> DATE3["Output ISO format\nYYYY-MM-DD"]
-    end
-
-    DATE3 --> DONE(["End"])
-```
-
 ### State Schema
 
 Each step reads from and writes to a shared state object:
